@@ -29,6 +29,10 @@ const AudioPlayer = () => {
 				console.error("Erro ao buscar áudios", error);
 			});
 
+			socket.on("connect", () => {
+				console.log("Conectado ao servidor com o ID:", socket.id);
+			});
+		
 		socket.on("play-audio", (data) => {
 			if (data.filename === currentAudio && audioRef.current) {
 				audioRef.current.currentTime = data.currentTime;
@@ -51,6 +55,7 @@ const AudioPlayer = () => {
 		});
 
 		socket.on("update-user-list", (users) => {
+			console.log("Lista de usuários atualizada:", users);
 			setUserList(users);
 		});
 
@@ -58,6 +63,7 @@ const AudioPlayer = () => {
 			socket.off("play-audio");
 			socket.off("pause-audio");
 			socket.off("update-user-list");
+			socket.off("connect");
 		};
 	}, [currentAudio]);
 
