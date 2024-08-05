@@ -1,0 +1,94 @@
+.Container{
+  height: 100vh;
+  background-color: rgb(19, 19, 19);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+h1{
+  margin-left: 100px;
+  padding-left: 3.125rem;
+}
+
+.AudioContainer{
+  color: white;
+  list-style: none;
+  cursor: pointer; 
+}
+
+button{
+  cursor: pointer;
+}
+
+/* styles.css */
+.audio-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.audio-item {
+  margin: .625rem 0;
+}
+
+.audio-button {
+  margin-left: 100px;
+  background-color: #3a3a3a;
+  color: white;
+  border: none;
+  padding: .625rem 1.25rem;
+  cursor: pointer;
+  width: 22rem;
+  height: 3.125rem;
+  text-align: left;
+}
+
+.audio-button:hover {
+  background-color: #0057b383;
+}
+
+.music-title{
+  margin-bottom: 10px;
+}
+
+.play{
+  margin: 10px;
+  text-align: center;
+}
+
+.audio-controls {
+  margin-top: 29.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.audio-play{
+width: 22rem;
+height: 50px;
+}
+
+.user-list {
+  margin-top: 20px;
+  width: 450px;
+}
+
+.user-list input {
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.user-list button {
+  padding: 5px;
+}
+
+.user-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.user-list li {
+  margin: 5px 0;
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Socket.IO Test</title>
+</head>
+<body>
+  <h1>Socket.IO Test</h1>
+  <script src="http://localhost:3001/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io('http://localhost:3001');
+    socket.on('message', (message) => {
+      console.log(message);
+    });
+
+    // Adicione um manipulador para erros
+    socket.on('connect_error', (error) => {
+      console.error('Erro de conexão:', error);
+    });
+  </script>
+</body>
+</html>
