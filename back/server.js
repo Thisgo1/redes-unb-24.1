@@ -92,7 +92,7 @@ app.get("/audios/:filename", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-	console.log("Novo cliente conectado:", username, socket.id);
+	console.log("Novo cliente conectado:",socket.id);
 
 	socket.on("set-username", (username) => {
 		console.log(`Recebido nome de usuário: ${username}`);
