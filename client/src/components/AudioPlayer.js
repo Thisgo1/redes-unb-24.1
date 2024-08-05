@@ -5,20 +5,26 @@ const AudioPlayer = () => {
   const[audios, setAudios] = useState([]);
   const[currentAudio, setCurrentAudio] = useState(null);
   const[isPlaying, setIsPlaying] = useState(false);
+  const[error, setError] = useState(null);
   const audioRef = useRef(null);
 
   useEffect(() =>{
-    axios.get('http://localhost:3001/audios')
+    fetch('http://localhost:3001/audios')
     .then(response => {
-      setAudios(response.data);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
     })
-    .catch(error => {
-      console.log('Erro ao buscar áudios', error);
-    });
+    .then(data => setAudios(data))
+    .catch(error => setError(error.message));
   }, []);
+  console.log(audios)
+  console.log(audioRef)
+  
 
   const playAudio = (filename) => {
-    setCurrentAudio(`http://localhost:3001/audio/${filename}`);
+    setCurrentAudio(`http://localhost:3001/audios/${filename}`);
     setIsPlaying(true);
   };
 
@@ -35,13 +41,14 @@ const AudioPlayer = () => {
     <div>
       <h1>Lista de Áudios</h1>
       <ul>
-        {audios.map((audio, index) => {
+        {audios.map((audio, index) => 
           <li key={index}>
+            <p>{audio}</p>
             <button onClick={() => playAudio(audio)}>
               {audio}
             </button>
           </li>
-        })}
+        )}
       </ul>
       {currentAudio && (
         <div>
@@ -61,4 +68,4 @@ const AudioPlayer = () => {
   );
 };
 
-export default AudioPlayer;
+export default AudioPlayer
