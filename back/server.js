@@ -1,14 +1,20 @@
 console.log('inciando o servidor...')
 
 const express = require('express');
+const http = require('http')
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
+const socketIo = require('socket.io');
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server)
 const PORT = 3001;
 
 app.use(cors());
+
+const connectedUsers = new Map();
 
 // Servir lista de áudios
 app.get('/audios', (req, res) => {
@@ -19,7 +25,6 @@ app.get('/audios', (req, res) => {
       return;
     }
     res.json(files);
-    console.log(res)
   });
 });
 
@@ -66,7 +71,32 @@ app.get('/audios/:filename', (req, res) => {
   });
 });
 
+io.on('connection', (socket) => {
+  console.log("Novo cliente conectado");
+
+  socket.on('set-username', (username) => {
+    connectedUsers.set(username, socket.id);
+    io.emit('update-user-list', Array.from(connectedUsers.keys()))
+  })
+
+  socket.on('play-audio', (data) =>{
+    io.emit('play-audio', data);
+  });
+
+  socket.on('pause-audio', () => {
+    io.emit('play-audio');
+  });
+
+  socket.on('disconnect', () => {
+    console.log('Cliente desconectado', socket.id);
+    if (value === socket.id) {
+      connectedUsers.delete(key);
+      io.emit('update-user-list', Array.from(connectedUsers.keys()));
+    }
+  })
+})
+
+
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
-console.log()
