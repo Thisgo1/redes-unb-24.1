@@ -3,8 +3,8 @@
   background-color: rgb(19, 19, 19);
   color: white;
   display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
+  justify-content: space-between;
+  /* align-items: center; */
 }
 
 h1{
@@ -48,16 +48,47 @@ button{
   background-color: #0057b383;
 }
 
+.music-title{
+  margin-bottom: 10px;
+}
+
+.play{
+  margin: 10px;
+  text-align: center;
+}
+
 .audio-controls {
-  margin-top: 1.25rem;
+  margin-top: 29.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
 }
 
 .audio-play{
-position: absolute;
-right: 34.375rem;
-top: 24.0625rem;
+width: 22rem;
+height: 50px;
 }
 
-.hidden {
-  display: none;
+.user-list {
+  margin-top: 20px;
+  width: 450px;
+}
+
+.user-list input {
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.user-list button {
+  padding: 5px;
+}
+
+.user-list ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.user-list li {
+  margin: 5px 0;
 }

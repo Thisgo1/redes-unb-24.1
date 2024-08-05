@@ -19,6 +19,7 @@ const UserList = () => {
 
   const handleSetUsername = () => {
     if (username) {
+      console.log(`Emitindo nome de usuário: ${username}`)
       socket.emit('set-username', username);
     }
   };

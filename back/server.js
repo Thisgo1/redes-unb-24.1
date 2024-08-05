@@ -15,6 +15,7 @@ const PORT = 3001;
 app.use(cors());
 
 const connectedUsers = new Map();
+const userAudioStatus = new Map();
 
 // Servir lista de áudios
 app.get('/audios', (req, res) => {
@@ -75,25 +76,52 @@ io.on('connection', (socket) => {
   console.log("Novo cliente conectado");
 
   socket.on('set-username', (username) => {
+    console.log(`Recebido nome de usuário: ${username}`)
     connectedUsers.set(username, socket.id);
-    io.emit('update-user-list', Array.from(connectedUsers.keys()))
+    io.emit('update-user-list', Array.from(connectedUsers.keys()).map(user => ({
+      username: user,
+      currentAudio: userAudioStatus.get(user) || null
+    })));
   })
 
-  socket.on('play-audio', (data) =>{
-    io.emit('play-audio', data);
+  socket.on('play-audio', (data) => {
+    userAudioStatus.forEach((audio, user) => {
+      io.to(connectedUsers.get(user)).emit('play-audio', data);
+    });
+    io.emit('update-user-list', Array.from(connectedUsers.keys()).map(user => ({
+      username: user,
+      currentAudio: userAudioStatus.get(user) || null
+    })));
   });
 
+
   socket.on('pause-audio', () => {
-    io.emit('play-audio');
+    io.emit('pause-audio');
+  });
+
+  socket.on('update-audio-status', (data) => {
+    const { username, audio } = data;
+    userAudioStatus.set(username, audio);
+    io.emit('update-user-list', Array.from(connectedUsers.keys()).map(user => ({
+      username: user,
+      currentAudio: userAudioStatus.get(user) || null
+    })));
   });
 
   socket.on('disconnect', () => {
     console.log('Cliente desconectado', socket.id);
-    if (value === socket.id) {
-      connectedUsers.delete(key);
-      io.emit('update-user-list', Array.from(connectedUsers.keys()));
+    for (const [user, id] of connectedUsers.entries()) {
+      if (id === socket.id) {
+        connectedUsers.delete(user);
+        userAudioStatus.delete(user);
+        io.emit('update-user-list', Array.from(connectedUsers.keys()).map(user => ({
+          username: user,
+          currentAudio: userAudioStatus.get(user) || null
+        })));
+        break;
+      }
     }
-  })
+  });
 })
 
 
