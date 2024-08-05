@@ -1,7 +1,7 @@
 uma simples aplicação web capaz de executar tais funções:
 
 1 - Cliente deve poder recuperar a lista de 
-áudios no servidor.
+áudios no servidor. /br
 2 - Cliente deve poder clicar para ouvir 
 um áudio hospedado no servidor.
 3 - Se o cliente tentar tocar a música e ela 
